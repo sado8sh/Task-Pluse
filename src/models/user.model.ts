@@ -8,6 +8,8 @@ export interface IUser extends Document {
   role: 'admin' | 'manager' | 'employee';
   matricule: string;
   phoneNumber: string;
+  department?: Types.ObjectId;
+  position?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,6 +45,14 @@ const userSchema = new Schema<IUser>({
   phoneNumber: {
     type: String,
     required: true,
+    trim: true
+  },
+  department: {
+    type: Schema.Types.ObjectId,
+    ref: 'Department'
+  },
+  position: {
+    type: String,
     trim: true
   }
 }, {

@@ -1,6 +1,6 @@
 import express from 'express';
 import { register, login, refreshToken } from '../controllers/auth.controller';
-import { auth } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post('/login', login as express.RequestHandler);
 router.post('/refresh-token', refreshToken as express.RequestHandler);
 
 // Protected routes
-router.get('/me', auth as express.RequestHandler, (req: express.Request, res: express.Response) => {
+router.get('/me', authenticate as express.RequestHandler, (req: express.Request, res: express.Response) => {
   res.json({ user: req.user });
 });
 

@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes';
 import departmentRoutes from './routes/department.routes';
 import taskRoutes from './routes/task.routes';
 import projectRoutes from './routes/project.routes';
+import userRoutes from './routes/user.routes';
 
 // Load environment variables
 config();
@@ -44,6 +45,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

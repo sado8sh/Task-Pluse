@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { auth, authorize, AuthRequest } from '../middleware/auth';
+import { authenticate, authorize, AuthRequest } from '../middleware/auth';
 import {
   getDepartments,
   getDepartment,
@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 // Apply auth middleware to all routes
-router.use(auth as express.RequestHandler);
+router.use(authenticate as express.RequestHandler);
 
 // Get all departments
 router.get('/', getDepartments as express.RequestHandler);

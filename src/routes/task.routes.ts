@@ -7,12 +7,12 @@ import {
   deleteTask,
   updateTaskStatus
 } from '../controllers/task.controller';
-import { auth, authorize, AuthRequest } from '../middleware/auth';
+import { authenticate, authorize, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
 
 // All routes require authentication
-router.use(auth as express.RequestHandler);
+router.use(authenticate as express.RequestHandler);
 
 // Get all tasks (filtered by user's role and permissions)
 router.get('/', getTasks as express.RequestHandler);

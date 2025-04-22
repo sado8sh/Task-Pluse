@@ -8,12 +8,12 @@ import {
   addTeamMember,
   removeTeamMember
 } from '../controllers/project.controller';
-import { auth, authorize, AuthRequest } from '../middleware/auth';
+import { authenticate, authorize, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
 
 // Apply auth middleware to all routes
-router.use(auth as express.RequestHandler);
+router.use(authenticate as express.RequestHandler);
 
 // Get all projects
 router.get('/', getProjects as express.RequestHandler);
