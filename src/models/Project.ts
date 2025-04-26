@@ -43,20 +43,52 @@ const projectSchema = new Schema<IProject>({
   manager: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
+    validate: {
+      validator: async function (id: mongoose.Types.ObjectId): Promise<boolean> {
+        const User = mongoose.model('User');
+        const user = await User.exists({ _id: id });
+        return !!user; // Convert to boolean
+      },
+      message: 'Manager does not exist'
+    }
   },
   team: [{
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    validate: {
+      validator: async function (id: mongoose.Types.ObjectId): Promise<boolean> {
+        const User = mongoose.model('User');
+        const user = await User.exists({ _id: id });
+        return !!user;
+      },
+      message: 'Team member does not exist'
+    }
   }],
   tasks: [{
     type: Schema.Types.ObjectId,
-    ref: 'Task'
+    ref: 'Task',
+    validate: {
+      validator: async function (id: mongoose.Types.ObjectId): Promise<boolean> {
+        const Task = mongoose.model('Task');
+        const task = await Task.exists({ _id: id });
+        return !!task;
+      },
+      message: 'Task does not exist'
+    }
   }],
   department: {
     type: Schema.Types.ObjectId,
     ref: 'Department',
-    required: true
+    required: true,
+    validate: {
+      validator: async function (id: mongoose.Types.ObjectId): Promise<boolean> {
+        const Department = mongoose.model('Department');
+        const dept = await Department.exists({ _id: id });
+        return !!dept;
+      },
+      message: 'Department does not exist'
+    }
   },
   priority: {
     type: String,
@@ -68,6 +100,14 @@ const projectSchema = new Schema<IProject>({
   }
 }, {
   timestamps: true
+});
+
+projectSchema.pre('validate', function (next) {
+  if (this.endDate <= this.startDate) {
+    next(new Error('endDate must be after startDate'));
+  } else {
+    next();
+  }
 });
 
 export const Project = mongoose.model<IProject>('Project', projectSchema); 

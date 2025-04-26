@@ -28,11 +28,25 @@ const departmentSchema = new Schema<IDepartment>({
   },
   manager: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    validate: {
+      validator: async (id: mongoose.Types.ObjectId) => {
+        const User = mongoose.model('User');
+        return await User.exists({ _id: id });
+      },
+      message: 'Manager does not exist'
+    }
   },
   employees: [{
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    validate: {
+      validator: async (id: mongoose.Types.ObjectId) => {
+        const User = mongoose.model('User');
+        return await User.exists({ _id: id });
+      },
+      message: 'Employee does not exist'
+    }
   }]
 }, {
   timestamps: true
